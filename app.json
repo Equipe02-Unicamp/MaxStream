@@ -1,0 +1,12 @@
+{
+  "name": "MaxStream",
+  "displayName": "MaxStream",
+  "expo": {
+    "name": "MaxStream",
+    "slug": "MaxStream",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
