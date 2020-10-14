@@ -9,8 +9,17 @@ export default function SearchSelection() {
       <Text style={styles.label}>
         Olá Felipe, o que você gostaria de fazer
       </Text>
-      <View>
-        
+      <View style={styles.chooseBoxContainer}>
+        <View style={styles.chooseBox}>
+          <Text style={styles.chooseLabel}>
+            Ouvir música
+          </Text>
+        </View>
+        <View style={styles.chooseBox}>
+          <Text style={styles.chooseLabel}>
+            Ver vídeos
+          </Text>
+        </View>
       </View>
     </View>
   );
