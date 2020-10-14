@@ -5,12 +5,23 @@ export default StyleSheet.create({
       flex: 1,
       flexDirection: 'column'
   },
-  halfHeight: {
-      flex: .9,
+  mainArea: {
+      flex: .70,
       backgroundColor: 'red'
   },
-  quarterHeight: {
-      flex: .25,
-      backgroundColor: 'blue'
+  footerArea: {
+      flex: .1,
+      backgroundColor: 'green',
+      alignItems: 'center',
+      justifyContent: 'center'
+  },
+  logoArea: {
+    flex: .2,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  compactLogo: {
+    width: 100,
+    height: 120,
   }
 });
