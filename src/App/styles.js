@@ -6,8 +6,7 @@ export default StyleSheet.create({
       flexDirection: 'column'
   },
   mainArea: {
-      flex: .70,
-      backgroundColor: 'red'
+      flex: .70
   },
   footerArea: {
       flex: .1,
