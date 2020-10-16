@@ -3,11 +3,12 @@ import { View, Image } from 'react-native';
 import Home from '../Home';
 import SearchMusic from '../SearchMusic';
 import SearchVideo from '../SearchVideo';
+import NavigationBar from '../NavigationBar';
 import styles from './styles';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('Home')
-  
+
   const handleSearchSelection = (selection) => {
     setCurrentScreen(selection)
   }
@@ -21,7 +22,7 @@ export default function App() {
     SearchMusic: <SearchMusic returnToMainScreen={returnToMainScreen} />,
     SearchVideo: <SearchVideo returnToMainScreen={returnToMainScreen} />
   }), [])
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.logoArea}>
@@ -30,7 +31,7 @@ export default function App() {
       <View style={styles.mainArea}>
         {availableScreens[currentScreen]}
       </View>
-      <View style={styles.footerArea} />
+      <NavigationBar />
     </View>
   );
 }

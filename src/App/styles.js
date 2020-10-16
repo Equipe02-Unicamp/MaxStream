@@ -8,12 +8,6 @@ export default StyleSheet.create({
   mainArea: {
       flex: .70
   },
-  footerArea: {
-      flex: .1,
-      backgroundColor: 'green',
-      alignItems: 'center',
-      justifyContent: 'center'
-  },
   logoArea: {
     flex: .2,
     alignItems: 'center',
