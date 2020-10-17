@@ -60,6 +60,9 @@ paths:
           description: "Not Implemented"
         "503":
           description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "write:partnerships"
     get:
       tags:
         - "partnerships"
@@ -106,6 +109,9 @@ paths:
           description: "Not Implemented"
         "503":
           description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "read:partnerships"
   /partnerships/{cnpj}:
     put:
       tags:
@@ -151,6 +157,9 @@ paths:
           description: "Not Implemented"
         "503":
           description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "write:partnerships"
     get:
       tags:
         - "partnerships"
@@ -189,6 +198,9 @@ paths:
           description: "Not Implemented"
         "503":
           description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "read:partnerships"
     delete:
       tags:
         - "partnerships"
@@ -227,6 +239,9 @@ paths:
           description: "Not Implemented"
         "503":
           description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "write:partnerships"
   /partnerships/{cnpj}/ratings:
     post:
       tags:
@@ -272,6 +287,230 @@ paths:
           description: "Not Implemented"
         "503":
           description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "write:partnerships"
+  /users:
+    post:
+      tags:
+        - "users"
+      summary: "Cadastrar um novo usuário na plataforma"
+      description: "Os usuários que acessarão a plataforma para consumir o conteúdo"
+      operationId: "addUser"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "users"
+          description: "Objeto do tipo users que será adicionado ao banco de dados"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "201":
+          description: "Created"
+          schema:
+            $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "write:users"
+    get:
+      tags:
+        - "users"
+      summary: "Consultar usuários cadastrados na plataforma"
+      description: ""
+      operationId: "findUser"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "_offset"
+          in: "query"
+          description: "offset da paginação"
+          required: false
+          type: "number"
+          default: "0"
+          collectionFormat: "multi"
+        - name: "_limit"
+          in: "query"
+          description: "limite da paginação"
+          required: false
+          type: "number"
+          default: "50"
+          collectionFormat: "multi"
+      responses:
+        "200":
+          description: "Consulta realizada com sucesso"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "read:users"
+  /users/{code}:
+    put:
+      tags:
+        - "users"
+      summary: "Modifica os dados de um usuário na plataforma"
+      description: ""
+      operationId: "updateUser"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "code"
+          in: "path"
+          description: "Código do usuário"
+          required: true
+          type: "string"
+          default: "CX1JD4GKQW"
+        - in: "body"
+          name: "user"
+          description: "Objeto do tipo user que será modificado (ou criado) ao banco de dados"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "Dados do parceiro atualizados com sucesso"
+          schema:
+            $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "write:users"
+    get:
+      tags:
+        - "partnerships"
+      summary: "Verifica um usuário específico na plataforma"
+      description: ""
+      operationId: "findUserByCode"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "code"
+          in: "path"
+          description: "Código do usuário"
+          required: true
+          type: "string"
+          default: "CX1JD4GKQW"
+      responses:
+        "200":
+          description: "Consulta realizada com sucesso"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "read:users"
+    delete:
+      tags:
+        - "users"
+      summary: "Deleta um usuário da plataforma de acordo com seu código"
+      description: ""
+      operationId: "deleteUser"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "code"
+          in: "path"
+          description: "Código do usuário"
+          required: true
+          type: "string"
+          default: "CX1JD4GKQW"
+      responses:
+        "200":
+          description: "Usuário removido com sucesso"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "write:users"
   /login:
     post:
       tags:
@@ -312,17 +551,15 @@ paths:
         "503":
           description: "Service Unavailable"
 securityDefinitions:
-  petstore_auth:
+  maxstream_auth:
     type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    authorizationUrl: "http://api.e2adv.io/oauth/dialog"
     flow: "implicit"
     scopes:
-      write:pets: "modify pets in your account"
-      read:pets: "read your pets"
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
+      write:partnerships: "modify partnerships in your account"
+      read:partnerships: "read your partnerships"
+      write:users: "modify users in your account"
+      read:users: "read your users"
 definitions:
   ResponseOutput:
     type: "object"
@@ -342,7 +579,7 @@ definitions:
         type: "string"
         example: "2020-10-17T01:04:00.300Z"
       data:
-        type: "array"
+        type: "object"
         example: []
   Partnership:
     type: "object"
@@ -378,6 +615,34 @@ definitions:
       date:
         type: "string"
         example: "2020-10-17T01:04:00.300Z"
+  User:
+    type: "object"
+    required:
+      - "code"
+      - "name"
+      - "age"
+      - "genre"
+      - "username"
+      - "password"
+    properties:
+      code:
+        type: "string"
+        example: "CX1JD4GKQW"
+      name:
+        type: "string"
+        example: "Fulano de Tal"
+      age:
+        type: "number"
+        example: 25
+      genre:
+        type: "string"
+        example: "male"
+      username:
+        type: "string"
+        example: "fulano"
+      password:
+        type: "string"
+        example: "deTal"
   Login:
     type: "object"
     required:
