@@ -1,0 +1,395 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "MaxStream"
+  termsOfService: "https://api.e2adv.io/maxstream/termsOfService"
+  contact:
+    email: "contact@e2adv.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "api.e2adv.io"
+basePath: "/maxstream/v1"
+tags:
+  - name: "partnerships"
+    description: "Gerenciamento dos parceiros dentro da plataforma"
+  - name: "users"
+    description: "Gerenciamento dos usuários que utilizam a aplicação"
+  - name: "login"
+    description: "Autenticação dos usuários"
+schemes:
+  - "https"
+paths:
+  /partnerships:
+    post:
+      tags:
+        - "partnerships"
+      summary: "Adicionar uma nova parceria na plataforma"
+      description: "Os parceiros que serão levados em conta para pesquisa do streaming"
+      operationId: "addPartnership"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "partnerships"
+          description: "Objeto do tipo partnerships que será adicionado ao banco de dados"
+          required: true
+          schema:
+            $ref: "#/definitions/Partnership"
+      responses:
+        "201":
+          description: "Created"
+          schema:
+            $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+    get:
+      tags:
+        - "partnerships"
+      summary: "Consultar parceiros registrados na plataforma"
+      description: ""
+      operationId: "findPartnership"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "_offset"
+          in: "query"
+          description: "offset da paginação"
+          required: false
+          type: "number"
+          default: "0"
+          collectionFormat: "multi"
+        - name: "_limit"
+          in: "query"
+          description: "limite da paginação"
+          required: false
+          type: "number"
+          default: "50"
+          collectionFormat: "multi"
+      responses:
+        "200":
+          description: "Consulta realizada com sucesso"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+  /partnerships/{cnpj}:
+    put:
+      tags:
+        - "partnerships"
+      summary: "Modifica um parceiro na plataforma"
+      description: ""
+      operationId: "updatePartnership"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cnpj"
+          in: "path"
+          description: "CNPJ do parceiro"
+          required: true
+          type: "string"
+          default: "0111521345870"
+        - in: "body"
+          name: "partnership"
+          description: "Objeto do tipo partnership que será modificado (ou criado) ao banco de dados"
+          required: true
+          schema:
+            $ref: "#/definitions/Partnership"
+      responses:
+        "200":
+          description: "Dados do parceiro atualizados com sucesso"
+          schema:
+            $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+    get:
+      tags:
+        - "partnerships"
+      summary: "Verifica um parceiro específico na plataforma"
+      description: ""
+      operationId: "findPartnershipByCnpj"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cnpj"
+          in: "path"
+          description: "CNPJ do parceiro"
+          required: true
+          type: "string"
+          default: "0111521345870"
+      responses:
+        "200":
+          description: "Consulta realizada com sucesso"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+    delete:
+      tags:
+        - "partnerships"
+      summary: "Deleta um parceiro da plataforma de acordo com seu cnpj"
+      description: ""
+      operationId: "deletePartnership"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cnpj"
+          in: "path"
+          description: "CNPJ do parceiro"
+          required: true
+          type: "string"
+          default: "0111521345870"
+      responses:
+        "200":
+          description: "Parceiro removido com sucesso"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+  /partnerships/{cnpj}/ratings:
+    post:
+      tags:
+        - "partnerships"
+      summary: "Classifica um parceiro na plataforma"
+      description: "Classificação das APIs parceiras (classificação dos usuários)"
+      operationId: "ratePartnership"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "cnpj"
+          in: "path"
+          description: "CNPJ do parceiro"
+          required: true
+          type: "string"
+          default: "0111521345870"
+        - in: "body"
+          name: "rating"
+          description: "Objeto do tipo partnership que será modificado (ou criado) ao banco de dados"
+          required: true
+          schema:
+            $ref: "#/definitions/Rating"
+      responses:
+        "200":
+          description: "Parceiro avaliado com sucesso"
+          schema:
+            $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+  /login:
+    post:
+      tags:
+        - "login"
+      summary: "Endpoint utilizado para realizar o login na plataforma"
+      description: ""
+      operationId: "createLogin"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "Login"
+          description: "Modelo de login utilizado na plataforma"
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      responses:
+        "201":
+          description: "Created"
+          schema:
+            $ref: "#/definitions/ResponseOutput"
+        "400":
+          description: "Bad Request"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+        "429":
+          description: "Too Many Requests"
+        "500":
+          description: "Internal Server Error"
+        "501":
+          description: "Not Implemented"
+        "503":
+          description: "Service Unavailable"
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  ResponseOutput:
+    type: "object"
+    required:
+      - "success"
+      - "message"
+      - "date"
+      - "data"
+    properties:
+      success:
+        type: "boolean"
+        example: true
+      message:
+        type: "string"
+        example: "Operação realizada com sucesso"
+      date:
+        type: "string"
+        example: "2020-10-17T01:04:00.300Z"
+      data:
+        type: "array"
+        example: []
+  Partnership:
+    type: "object"
+    required:
+      - "cnpj"
+      - "name"
+      - "category"
+    properties:
+      cnpj:
+        type: "string"
+        example: "0111521345870"
+      name:
+        type: "string"
+        example: "Netflix"
+      category:
+        type: "string"
+        example: "Movies"
+      rating: 
+        type: object
+        example:
+          $ref: "#/definitions/Rating"
+  Rating:
+    type: "object"
+    required:
+      - "grade"
+      - "date"
+    properties:
+      grade:
+        type: "number"
+        example: 8
+        minimum: 0
+        maximum: 10
+      date:
+        type: "string"
+        example: "2020-10-17T01:04:00.300Z"
+  Login:
+    type: "object"
+    required:
+      - "user"
+      - "password"
+    properties:
+      user:
+        type: "string"
+        example: "fulano"
+      password:
+        type: "string"
+        example: "ciclano"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
