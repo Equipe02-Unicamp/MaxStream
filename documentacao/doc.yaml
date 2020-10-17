@@ -16,8 +16,8 @@ tags:
     description: "Gerenciamento dos parceiros dentro da plataforma"
   - name: "users"
     description: "Gerenciamento dos usuários que utilizam a aplicação"
-  - name: "login"
-    description: "Autenticação dos usuários"
+  - name: "searches"
+    description: "Pesquisa otimizada dos links dos streamings"
 schemes:
   - "https"
 paths:
@@ -431,7 +431,7 @@ paths:
         - "write:users"
     get:
       tags:
-        - "partnerships"
+        - "users"
       summary: "Verifica um usuário específico na plataforma"
       description: ""
       operationId: "findUserByCode"
@@ -511,29 +511,51 @@ paths:
       security:
       - maxstream_auth:
         - "write:users"
-  /login:
-    post:
+  /searches:
+    get:
       tags:
-        - "login"
-      summary: "Endpoint utilizado para realizar o login na plataforma"
+        - "searches"
+      summary: "Consulta os links dos streamings"
       description: ""
-      operationId: "createLogin"
-      consumes:
-        - "application/json"
+      operationId: "findStreams"
       produces:
         - "application/json"
       parameters:
-        - in: "body"
-          name: "Login"
-          description: "Modelo de login utilizado na plataforma"
+        - name: "keywords"
+          in: "query"
+          description: "parâmetro de busca"
           required: true
-          schema:
-            $ref: "#/definitions/Login"
+          type: "string"
+          default: "Flash"
+          collectionFormat: "multi"
+        - name: "category"
+          in: "query"
+          description: "categoria da busca"
+          required: true
+          type: "string"
+          default: "Movie"
+          collectionFormat: "multi"
+        - name: "_offset"
+          in: "query"
+          description: "offset da paginação"
+          required: false
+          type: "number"
+          default: "0"
+          collectionFormat: "multi"
+        - name: "_limit"
+          in: "query"
+          description: "limite da paginação"
+          required: false
+          type: "number"
+          default: "5"
+          collectionFormat: "multi"
       responses:
-        "201":
-          description: "Created"
+        "200":
+          description: "Consulta realizada com sucesso"
           schema:
-            $ref: "#/definitions/ResponseOutput"
+            type: "array"
+            items:
+              $ref: "#/definitions/ResponseOutput"
         "400":
           description: "Bad Request"
         "401":
@@ -550,6 +572,9 @@ paths:
           description: "Not Implemented"
         "503":
           description: "Service Unavailable"
+      security:
+      - maxstream_auth:
+        - "read:partnerships"
 securityDefinitions:
   maxstream_auth:
     type: "oauth2"
@@ -643,18 +668,6 @@ definitions:
       password:
         type: "string"
         example: "deTal"
-  Login:
-    type: "object"
-    required:
-      - "user"
-      - "password"
-    properties:
-      user:
-        type: "string"
-        example: "fulano"
-      password:
-        type: "string"
-        example: "ciclano"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
